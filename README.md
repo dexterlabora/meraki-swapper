@@ -70,8 +70,27 @@ api/routes/meraki.js
 
 ```
 
+## Heroku
+This app is configured to easily deploy to Heroku.
+https://nuxtjs.org/faq/heroku-deployment/
 
+```bash
+# Login to Heroku and Clone your project (create from heroku.com)
+heroku login
+heroku git:clone -a meraki-swapper
+cd meraki-swapper
 
+# Set environment variables, including Meraki API key (or from the website add the environment variable)
+heroku config:set NPM_CONFIG_PRODUCTION=false
+heroku config:set HOST=0.0.0.0
+heroku config:set NODE_ENV=production
+heroku config:set NUXT_ENV_API_KEY=<your Meraki API key>
+
+# Deploy Changes
+$ git add .
+$ git commit -am "make it better"
+$ git push heroku master
+```
 
 
 
