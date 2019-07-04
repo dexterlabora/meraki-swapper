@@ -54,7 +54,13 @@ module.exports = {
     "@bazzite/nuxt-netlify"
   ],
   netlify: {
+    // https://www.netlify.com/docs/redirects/
     redirects: [
+      {
+        from: "/api/*",
+        to: "/api",
+        status: 200
+      },
       {
         from: "/*",
         to: "/index.html",
