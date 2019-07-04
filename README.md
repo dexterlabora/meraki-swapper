@@ -7,6 +7,13 @@ This web application is a simple tool to streamline replacing Meraki switches wi
 
 <img src="./MerakiSwitchSwapper-screenshot.png" alt="screenshot" height="600"/>
 
+---
+
+[Live DEMO](https://meraki-swapper.herokuapp.com/)
+    
+*Heroku instance may need to wake up, takes just a minute on first run*
+
+---
 
 ## Features
 - Organization selector
