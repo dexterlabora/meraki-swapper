@@ -1,7 +1,7 @@
 {
-  "name": "meraki-switch-swapper-nxt",
+  "name": "Meraki Swapper",
   "version": "1.0.0",
-  "description": "My stellar Nuxt.js project",
+  "description": "A Cisco Meraki tool to swap devices",
   "author": "dexterlabora",
   "private": true,
   "scripts": {
