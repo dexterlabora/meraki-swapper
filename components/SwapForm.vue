@@ -153,7 +153,7 @@
           <!-- Step 4 : REMOVE SOURCE SWITCH -->
           <v-stepper-step :complete="stepper > 4" step="4">
             Remove Source Switch
-            <small>Moves the source switch into the organization invetory (optional)</small>
+            <small>Moves the source switch into the organization inventory (optional)</small>
           </v-stepper-step>
           <v-stepper-content step="4">
             <switch-remove
