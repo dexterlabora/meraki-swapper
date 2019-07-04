@@ -53,7 +53,13 @@ module.exports = {
     "@nuxtjs/proxy",
     "@bazzite/nuxt-netlify"
   ],
-  netlify: {},
+  netlify: {
+    redirects: [
+      {
+        from: '/api/*',
+        to: '/api'
+      },
+  },
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
