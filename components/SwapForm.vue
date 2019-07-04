@@ -12,13 +12,15 @@
                 <div v-if="form.oldSwitchDetails.serial">
                   <strong>{{form.oldSwitchDetails.serial}}</strong>
                   | {{form.oldSwitchDetails.model}}
-                  <div class="pt-0">Net: {{network.name}}</div>
+                  <div class="pt-0">Net: {{networkById(form.oldSwitchDetails.networkId).name}}</div>
 
                   <span>
                     <v-btn @click.prevent="showOldSwitchInfo" round small color="secondary">Details</v-btn>
                   </span>
                   <v-dialog v-model="oldSwitchDialog">
                     <switch-info
+                      :key="form.oldSwitchDetails.serial"
+                      :network="networkById(form.oldSwitchDetails.networkId)"
                       :switchDetails="form.oldSwitchDetails"
                       :switchPorts="form.oldSwitchPorts"
                       @onClose="oldSwitchDialog = false"
@@ -53,13 +55,16 @@
                 <div v-if="form.newSwitchDetails.serial">
                   <strong>{{form.newSwitchDetails.serial}}</strong>
                   | {{form.newSwitchDetails.model}}
-                  <div class="pt-0">Net: {{network.name}}</div>
-
+                  <div class="pt-0">Net: {{networkById(form.newSwitchDetails.networkId).name}}</div>
                   <span>
-                    <v-btn @click.prevent="showNewSwitchInfo" round small color="secondary">Details</v-btn>
+                    <v-btn @click="showNewSwitchInfo" round small color="secondary">Details</v-btn>
                   </span>
                   <v-dialog v-model="newSwitchDialog">
+                    form.newSwitchDetails.serial: {{form.newSwitchDetails.serial}}
                     <switch-info
+                      id="info-2"
+                      key="new"
+                      :network="networkById(form.newSwitchDetails.networkId)"
                       :switchDetails="form.newSwitchDetails"
                       :switchPorts="form.newSwitchPorts"
                       @onClose="newSwitchDialog = false"
@@ -73,20 +78,28 @@
           <v-stepper-content step="2">
             <switch-selector
               label="Select Destination Switch..."
-              :switches="unusedAndNetworkSwitches"
+              :switches="unusedAndNetworkSwitchesModelMatch"
               @selected="onNewSwitchSelect"
             ></switch-selector>
 
             <!-- Step 2-Optional : Add SWITCH -->
             <div v-if="form.newSwitchDetails.serial">
               <div v-if="!form.newSwitchDetails.networkId">
-                <small>The switch must first be added to the network {{network.name}}</small>
+                <small>The switch must first be added to the same network as the source</small>
                 <switch-add
                   :switchDetails="form.newSwitchDetails"
-                  :network="network"
+                  :network="networkById(form.oldSwitchDetails.networkId)"
                   :key="form.newSwitchDetails.serial"
                   @switchAdded="onSwitchAdded($event)"
                 ></switch-add>
+              </div>
+              <div v-if="form.switchAdded">
+                <v-card>
+                  <v-card-title class="headline">Success!</v-card-title>
+                  <v-card-text>
+                    <p color="secondary">The switch has been added to the network.</p>
+                  </v-card-text>
+                </v-card>
               </div>
             </div>
             <v-btn
@@ -119,6 +132,8 @@
                   </span>
                   <v-dialog v-model="updatedSwitchDialog">
                     <switch-info
+                      :key="form.updatedSwitchDetails.serial"
+                      :network="network"
                       :switchDetails="form.updatedSwitchDetails"
                       :switchPorts="form.updatedSwitchPorts"
                       @onClose="updatedSwitchDialog = false"
@@ -245,9 +260,7 @@ export default {
     stepper() {
       // Log the step to console, for demo
       console.log(
-        `Step: ${
-          this.stepper
-        } ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+        `Step: ${this.stepper} ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
       );
     }
   },
@@ -267,6 +280,15 @@ export default {
         return (
           (i.networkId == this.network.id || !i.networkId) &&
           i.model.toUpperCase().includes("MS")
+        );
+      });
+    },
+    unusedAndNetworkSwitchesModelMatch() {
+      return this.form.orgInventory.filter(i => {
+        return (
+          (i.networkId == this.network.id || !i.networkId) &&
+          i.model == this.form.oldSwitchDetails.model &&
+          i.serial != this.form.oldSwitchDetails.serial
         );
       });
     },
@@ -312,7 +334,8 @@ export default {
         },
         oldSwitchPorts: [],
         newSwitchPorts: [],
-        updatedSwitchPorts: []
+        updatedSwitchPorts: [],
+        switchAdded: false
       };
       if (!this.org.id) {
         return;
@@ -325,7 +348,7 @@ export default {
       this.oldSwitchDialog = true;
     },
     showNewSwitchInfo() {
-      this.oldSwitchDialog = true;
+      this.newSwitchDialog = true;
     },
     showUpdatedSwitchInfo() {
       this.updatedSwitchDialog = true;
@@ -333,6 +356,7 @@ export default {
     onSwitchAdded(event) {
       console.log("SwapForm onSwitchAdded(event)", event);
       this.form.newSwitchDetails = event;
+      this.form.switchAdded = true;
     },
     onSwitchRemoved(event) {
       console.log("SwapForm: switch removed", event);
@@ -409,6 +433,15 @@ export default {
           return res;
         })
         .catch(e => this.handleError(e));
+    },
+    networkById(id) {
+      console.log("networkById", id);
+      const filtered = this.networks.filter(n => n.id === id)[0] || {
+        name: "INVENTORY",
+        id: id
+      };
+      console.log("networkById Filtered", filtered);
+      return filtered;
     },
     handleError(error) {
       console.log(error);

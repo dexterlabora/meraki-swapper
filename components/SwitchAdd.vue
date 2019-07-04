@@ -1,22 +1,8 @@
 <template>
   <v-card v-if="switchDetails">
     <v-card-text>
-      <p>
-        <strong>Name</strong>
-        : {{switchDetails.name}}
-      </p>
-      <p>
-        <strong>Serial</strong>
-        : {{switchDetails.serial}}
-      </p>
-      <p>
-        <strong>Model</strong>
-        : {{switchDetails.model}}
-      </p>
-      <p>
-        <strong>Network</strong>
-        : {{network.name}}
-      </p>
+      <h3>Adding to Network</h3>
+      <p>{{network.name}}</p>
       <div v-if="isAdded">
         <strong>
           <p class="primary pl-2">ADDED TO NETWORK</p>
@@ -27,7 +13,7 @@
       <v-btn
         round
         small
-        color="warning"
+        color="secondary"
         @click="onAddSwitch"
         :disabled="isAdded"
         :loading="loading"

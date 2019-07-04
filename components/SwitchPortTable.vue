@@ -2,13 +2,14 @@
   <v-data-table :headers="headers" :items="data" class="elevation-1">
     <template v-slot:items="props">
       <td class="text-xs-right">{{ props.item.number }}</td>
+      <td class="text-xs-right">{{ props.item.vlan }}</td>
+      <td class="text-xs-right">{{ props.item.voiceVlan }}</td>
       <td>{{ props.item.name }}</td>
       <td class="text-xs-right">{{ props.item.tags }}</td>
       <td class="text-xs-right">{{ props.item.enabled }}</td>
       <td class="text-xs-right">{{ props.item.poeEnabled }}</td>
       <td class="text-xs-right">{{ props.item.type }}</td>
-      <td class="text-xs-right">{{ props.item.vlan }}</td>
-      <td class="text-xs-right">{{ props.item.voiceVlan }}</td>
+
       <td class="text-xs-right">{{ props.item.allowedVlans }}</td>
       <td class="text-xs-right">{{ props.item.isolationEnabled }}</td>
       <td class="text-xs-right">{{ props.item.rstpEnabled }}</td>
@@ -43,13 +44,13 @@ export default {
         sortable: true,
         value: "number"
       },
+      { text: "VLAN", value: "vlan" },
+      { text: "Voice VLAN", value: "voiceVlan" },
       { text: "Name", value: "name" },
       { text: "Tags", value: "tags" },
       { text: "Enabled", value: "enabled" },
       { text: "PoE Enabled", value: "poeEnabled" },
-      { text: "Type", value: "type" },
-      { text: "VLAN", value: "vlan" },
-      { text: "Voice VLAN", value: "voiceVlan" },
+      { text: "Type", value: "type" },   
       { text: "Allowed VLANs", value: "allowedVlans" },
       { text: "Isolation Enabled", value: "isolationEnabled" },
       { text: "RSTP Enabled", value: "rstpEnabled" },

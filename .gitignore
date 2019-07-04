@@ -87,3 +87,8 @@ sw.*
 # Mac OSX
 .DS_Store
 
+# git
+.gitignore
+
+# my developer notes ~ could contain keys
+.devnotes.md

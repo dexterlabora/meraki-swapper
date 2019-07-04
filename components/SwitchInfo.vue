@@ -1,14 +1,23 @@
-<template>
+<template id="switch-info">
   <v-card max-height="100%">
     <v-card-title>
-      <strong>Switch Information</strong>
+      <h2>Switch Information</h2>
     </v-card-title>
     <v-card-text>
       <div v-if="switchDetails">
         <div v-if="switchDetails.serial">
+          <p>
+            <v-label>Serial:</v-label>
+            <strong>{{switchDetails.serial}}</strong>
+          </p>
+          <p v-if="switchDetails.networkId">
+            <v-label>Network:</v-label>
+            <strong>{{network.name}}</strong>
+          </p>
           <div class="text-xs-center pt-0">
             <v-btn round color="grey" :loading="blinking" @click="onBlink()">Blink LEDs</v-btn>
           </div>
+
           <v-expansion-panel v-model="expansionPanel" focusable>
             <v-expansion-panel-content>
               <template v-slot:header>
@@ -41,14 +50,8 @@ import SwitchPortTable from "./SwitchPortTable";
 import meraki from "~/plugins/meraki";
 
 export default {
-  props: ["switchDetails", "switchPorts", "dialogOpen"],
-  /*
-  props: {
-    switchDetails: {},
-    switchPorts: [],
-    dialogOpen: Boolean
-  },
-  */
+  template: "switch-info",
+  props: ["network", "switchDetails", "switchPorts", "dialogOpen"],
   components: {
     SwitchDetails,
     SwitchPortTable
