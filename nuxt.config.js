@@ -58,7 +58,7 @@ module.exports = {
       {
         from: '/api/*',
         to: '/api'
-      },
+      }
   },
   /*
    ** Axios module configuration
