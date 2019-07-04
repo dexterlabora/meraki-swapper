@@ -56,9 +56,10 @@ module.exports = {
   netlify: {
     redirects: [
       {
-        from: '/api/*',
-        to: '/api'
+        from: "/api/*",
+        to: "/api"
       }
+    ]
   },
   /*
    ** Axios module configuration
