@@ -50,8 +50,10 @@ module.exports = {
     // Doc: https://axios.nuxtjs.org/usage
     "@nuxtjs/axios",
     "@nuxtjs/pwa",
-    "@nuxtjs/proxy"
+    "@nuxtjs/proxy",
+    "@bazzite/nuxt-netlify"
   ],
+  netlify: {},
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
