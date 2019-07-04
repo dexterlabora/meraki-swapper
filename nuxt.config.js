@@ -56,8 +56,9 @@ module.exports = {
   netlify: {
     redirects: [
       {
-        from: "/api/*",
-        to: "/api"
+        from: "/*",
+        to: "/index.html",
+        status: 200
       }
     ]
   },
