@@ -28,6 +28,7 @@
 <script>
 import meraki from "~/plugins/meraki";
 import axios from "~/plugins/axios";
+
 export default {
   props: {
     switchDetails: Object,

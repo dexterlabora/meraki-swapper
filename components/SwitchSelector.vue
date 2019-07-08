@@ -35,10 +35,33 @@
         </v-list-tile-content>
       </template>
     </v-autocomplete>
+    <!--  
+    <v-dialog v-model="showScanner">
+      <v-card height="300">
+        
+        <v-card-title>Barcode Scanner</v-card-title>
+        
+        <v-card-text>
+          <barcode-scanner></barcode-scanner>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn small color="primary" @click="showScanner = false">Cancel</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    
+    <span>
+      <v-btn @click="showScanner = !showScanner">
+        <v-icon small color="grey">filter_center_focus</v-icon>
+      </v-btn>
+    </span>
+    -->
   </v-flex>
 </template>
 
 <script>
+//import BarcodeScanner from "./BarcodeScanner";
+
 const selectedSwitch = {
   name: "",
   model: "",
@@ -46,9 +69,18 @@ const selectedSwitch = {
 };
 export default {
   props: ["label", "switches"],
+  components: {
+    //BarcodeScanner
+  },
   computed: {},
   data: () => ({
-    selectedSwitch: Object.create(selectedSwitch)
+    selectedSwitch: Object.create(selectedSwitch),
+    showScanner: false,
+    readerSize: {
+      width: 300,
+      height: 300
+    },
+    detecteds: []
   }),
   watch: {
     selectedSwitch() {
@@ -62,6 +94,9 @@ export default {
     }
   },
   methods: {
+    logIt(data) {
+      console.log("detected", data);
+    },
     clearForm() {
       console.log("clearing switchSelector form");
       this.$nextTick(() => {

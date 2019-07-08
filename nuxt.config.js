@@ -6,15 +6,17 @@ module.exports = {
    ** Headers of the page
    */
   head: {
-    titleTemplate: "%s - " + process.env.npm_package_name,
-    title: process.env.npm_package_name || "",
+    titleTemplate: "%s",
+    title: "Meraki Swapper",
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       {
         hid: "description",
         name: "description",
-        content: process.env.npm_package_description || ""
+        content:
+          process.env.npm_package_description ||
+          "A Cisco Meraki tool for replicating devices"
       }
     ],
     link: [
@@ -25,6 +27,13 @@ module.exports = {
           "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"
       }
     ]
+  },
+  manifest: {
+    name: "Meraki Swapper",
+    short_name: "Meraki Swapper",
+    description: "A Cisco Meraki tool to clone and remove devices.",
+    theme_color: "#fff",
+    start_url: "/"
   },
   env: {
     baseUrl: process.env.BASE_URL || "http://localhost:3000"
@@ -109,7 +118,6 @@ module.exports = {
       config.node = {
         fs: "empty"
       };
-    },
-    serverMiddleware: ["~/api"]
+    }
   }
 };

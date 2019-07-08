@@ -4,7 +4,7 @@ const router = Router();
 
 // External Configuration File
 var configs = require("../../meraki.config");
-var requestMeraki = require("../../request-meraki.js");
+//var requestMeraki = require("../../request-meraki.js");
 var bodyParser = require("body-parser");
 var request = require("request");
 
@@ -61,7 +61,7 @@ router.use("/", jsonParser, function(req, res, next) {
     res.send(err);
   });
 
-  /*
+  /* Legacy Method - to handle  redirects and Org ID as number
   requestMeraki(options, function(err, response, data) {
     if (err) {
       console.log("requestMeraki err ", err);

@@ -1,0 +1,36 @@
+{
+  "name": "Meraki Swapper",
+  "version": 2,
+  "builds": [
+    {
+      "src": "nuxt.config.js",
+      "use": "@nuxtjs/now-builder",
+      "config": {
+        "serverFiles": [
+          "middleware/**",
+          "plugins/**",
+          "api/**",
+          "static/**",
+          "package.json",
+          "meraki.config.js"
+        ]
+      }
+    }
+  ],
+  "env": {
+    "NUXT_ENV_API_URL": "@mp-api-url",
+    "NUXT_ENV_API_KEY": "@demo-api-key"
+  },
+  "routes": [
+    {
+      "src": "/_nuxt/.+",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/"
+    }
+  ]
+}
