@@ -9,9 +9,9 @@ This web application is a simple tool to streamline replacing Meraki switches wi
 
 ---
 
-[Live DEMO](https://meraki-swapper.herokuapp.com/)
+[Live DEMO](https://meraki-swapper.dexterlabora.now.sh)
     
-*Heroku instance may need to wake up, takes just a minute on first run*
+
 
 ---
 
