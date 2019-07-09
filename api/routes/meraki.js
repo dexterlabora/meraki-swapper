@@ -37,7 +37,8 @@ router.use("/", jsonParser, function(req, res, next) {
     //followAllRedirects: true, // Does not work as intended with PUT,POST,DELETE (returns a [GET] on final location)
     headers: {
       "X-Cisco-Meraki-API-Key": apiKey,
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "User-Agent": "meraki-swapper"
     }
   };
   console.log("meraki.js requestMeraki options", options);
