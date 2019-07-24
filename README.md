@@ -77,8 +77,17 @@ api/routes/meraki.js
 
 ```
 
+# Deployment Options
+The app has been configured to be easily deployed in a few popular free/budget locations.
+
+## Now
+https://zeit.co/now
+
+```
+NUXT_ENV_API_KEY=<APIKEY> NUXT_ENV_API_URL="https://api.meraki.com/api/v0" now
+```
+
 ## Heroku
-This app is configured to easily deploy to Heroku.
 https://nuxtjs.org/faq/heroku-deployment/
 
 ```bash
@@ -92,6 +101,7 @@ heroku config:set NPM_CONFIG_PRODUCTION=false
 heroku config:set HOST=0.0.0.0
 heroku config:set NODE_ENV=production
 heroku config:set NUXT_ENV_API_KEY=<your Meraki API key>
+heroku config:set NUXT_ENV_API_URL="https://api.meraki.com/api/v0"
 
 # Deploy Changes
 $ git add .
