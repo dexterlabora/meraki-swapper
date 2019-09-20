@@ -127,6 +127,9 @@ export default {
         let configs = {};
         configs = { ...configs, ...p };
         delete configs.number;
+        delete configs.macWhitelist;
+        delete configs.stickyMacWhitelist;
+        delete configs.stickyMacWhitelistLimit;
         //console.log("portConfigs[i]", pConfigs[i]);
         createOrganizationActionBatch.actions[i].body = configs;
       });
