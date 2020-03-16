@@ -3,7 +3,7 @@
 > A web tool for swapping Meraki switches
 
 # About
-This web application is a simple tool to streamline replacing Meraki switches with a similar switch. It can also be installed as a PWA for a more native feel on mobile devices.
+This web application is a simple demo tool to streamline replacing Meraki switches with a similar switch. It can also be installed as a PWA for a more native feel on mobile devices.
 
 <img src="./MerakiSwitchSwapper-screenshot.png" alt="screenshot" height="600"/>
 
