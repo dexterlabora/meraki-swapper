@@ -84,7 +84,7 @@ The app has been configured to be easily deployed in a few popular free/budget l
 https://zeit.co/now
 
 ```
-NUXT_ENV_API_KEY=<APIKEY> NUXT_ENV_API_URL="https://api.meraki.com/api/v0" now
+NUXT_ENV_API_KEY=<APIKEY> NUXT_ENV_API_URL="https://api-mp.meraki.com/api/v0" now
 ```
 
 ## Heroku

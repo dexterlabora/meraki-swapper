@@ -109,10 +109,13 @@ export default {
     },
     batchUpdateSwitch(orgId, netId, portConfigs, switchDetails, serial) {
       let input = {};
+      input["organizationId"] = orgId;
       let createOrganizationActionBatch = new meraki.CreateOrganizationActionBatchModel();
       createOrganizationActionBatch.confirmed = true;
+      createOrganizationActionBatch.synchronous = true;
       createOrganizationActionBatch.actions = [];
 
+      // copy select port details
       portConfigs.forEach((p, i) => {
         console.log("portConfigs p,i", p, i);
         createOrganizationActionBatch.actions[i] = new meraki.ActionModel();
@@ -120,33 +123,66 @@ export default {
           i
         ].resource = `/devices/${serial}/switchPorts/${p.number}`;
         createOrganizationActionBatch.actions[i].operation = "update";
+        //delete portConfigs[i].number; // remove number from param body (causes error and is not needed)
+        //portConfigs = portConfigs.map(p => delete p.number);
+        //const pConfigs = [];
+        //delete p.number;
         let configs = {};
         configs = { ...configs, ...p };
-        // removing problematic params
         delete configs.number;
         delete configs.macWhitelist;
         delete configs.stickyMacWhitelist;
         delete configs.stickyMacWhitelistLimit;
-        
+        //console.log("portConfigs[i]", pConfigs[i]);
         createOrganizationActionBatch.actions[i].body = configs;
       });
 
-      // ** bug in ActionBatches that does not allow async update of switch details
-      // const updateDeviceAction = {
-      //   resource: `/networks/${netId}/devices/${serial}`,
-      //   operation: "update",
-      //   body: switchDetails
-      // };
-      // createOrganizationActionBatch.actions.push(updateDeviceAction);
-      input["createOrganizationActionBatch"] = createOrganizationActionBatch;
-      input["organizationId"] = orgId;
-      console.log("actionBatch input", input);
-      return meraki.ActionBatchesController.createOrganizationActionBatch(input)
-        .then(res => {
-          console.log("actionBatchSent res", res);
-          return res;
-        })
-        .catch(e => this.handleError(e));
+      // copy select switch details
+      const updateDeviceAction = {
+        resource: `/networks/${netId}/devices/${serial}`,
+        operation: "update",
+        body: {"name":switchDetails.name + " - cloned"}
+      };
+      createOrganizationActionBatch.actions.push(updateDeviceAction);
+      
+      // limit batch size to < 20
+      let currentActions = [];
+      let actions = [...actions, ...createOrganizationActionBatch.actions]
+      for(let a in actions){
+        currentActions.push(actions[a]);
+        if(currentActions.length == actions.length){
+          // send batch
+          createOrganizationActionBatch.actions = currentActions;
+          input["createOrganizationActionBatch"] = createOrganizationActionBatch;
+          
+          console.log("actionBatch input", input);
+          return meraki.ActionBatchesController.createOrganizationActionBatch(input)
+            .then(res => {
+              console.log("actionBatchSent res (under limit)", res);
+              // reset actions            
+              return res;
+            })
+            .catch(e => this.handleError(e));
+            currentActions = [];
+
+          
+        }else if(currentActions.length == 19){
+          createOrganizationActionBatch.actions = currentActions;
+          input["createOrganizationActionBatch"] = createOrganizationActionBatch;
+          console.log("actionBatch input (20 limit)", input);
+          console.log("currentActions.length", currentActions.length);
+          console.log("createOrganizationActionBatch.actions ", createOrganizationActionBatch.actions )
+          meraki.ActionBatchesController.createOrganizationActionBatch(input)
+            .then(res => {
+              console.log("actionBatchSent res", res); 
+              return res;
+            })
+            .catch(e => this.handleError(e));
+            currentActions = [];
+        }
+      }
+
+      
     },
 
     checkBatchUpdateStatus(organizationId, batchId) {
@@ -163,7 +199,8 @@ export default {
         serial: this.newSwitchDetails.serial
       })
         .then(res => {
-          // console.log("this.getDeviceSwitchDetails", serial, res);
+          console.log("this.getDeviceSwitchDetails", serial, res);
+          //this.updateSwitchDetails = res;
           return res;
         })
         .catch(e => this.handleError(e));
@@ -171,7 +208,7 @@ export default {
     fetchSwitchPorts(serial) {
       return meraki.SwitchPortsController.getDeviceSwitchPorts(serial)
         .then(res => {
-          // console.log("this.getDeviceSwitchPorts", serial, res);
+          console.log("this.getDeviceSwitchPorts", serial, res);
           return res;
         })
         .catch(e => this.handleError(e));
@@ -216,11 +253,6 @@ export default {
           ).then(res => {
             console.log("statusInterval", res);
             this.actionBatchDetails = res;
-
-            // Change New Switch Details if ActionBatch Completed
-            if (this.actionBatchDetails.status.completed){
-              this.updateSwitchDetails(this.netId, this.newSwitchDetails.serial, this.oldSwitchDetails)
-            }
 
             // Handle Clone Results
             if (
