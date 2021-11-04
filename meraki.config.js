@@ -4,6 +4,6 @@
 // Define your environment variables here
 
 module.exports = {
-  apiKey: process.env.NUXT_ENV_API_KEY || "", // Enter Your API Key as server default
+  apiKey: process.env.NUXT_ENV_API_KEY || "", // 2394a4cf8c2dd79d45cab75b9eb1dfc676a05453
   apiUrl: process.env.NUXT_ENV_API_URL || "https://api-mp.meraki.com/api/v0"
 };
