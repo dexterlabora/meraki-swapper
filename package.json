@@ -20,7 +20,7 @@
     "@nuxtjs/pwa": "^2.6.0",
     "@nuxtjs/vuetify": "0.5.5",
     "cross-env": "^5.2.0",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "fs": "^0.0.1-security",
     "lodash": "^4.17.11",
     "meraki": "^1.1.0",
